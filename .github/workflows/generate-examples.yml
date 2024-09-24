@@ -1,10 +1,14 @@
 name: Generate Examples
 
-on: [workflow_dispatch,
+on: 
+  workflow_dispatch:
+    inputs:
+      parameter:
+        example-to-deploy: Matches examples folder
   push:
     branches:
       - 'main'
-      - 'release/gs-0.0.1']
+      - 'release/gs-0.0.1'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
