@@ -1,10 +1,6 @@
 name: Generate Examples
 
-on:
-#  push:
-#    branches-ignore:
-#      - main
-#      - changeset-release/main
+on: workflow_dispatch
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
