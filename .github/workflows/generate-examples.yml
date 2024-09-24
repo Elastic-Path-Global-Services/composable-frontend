@@ -1,6 +1,10 @@
 name: Generate Examples
 
-on: workflow_dispatch
+on: [workflow_dispatch,
+  push:
+    branches:
+      - 'main'
+      - 'release/gs-0.0.1']
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -8,7 +12,6 @@ concurrency:
 
 jobs:
   generate-examples:
-    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
     name: Create latest examples
     runs-on: ubuntu-latest
     outputs:
