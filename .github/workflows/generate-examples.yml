@@ -54,9 +54,15 @@ jobs:
       - name: Build packages/*
         run: pnpm build:packages
 
+      - name: Print current directory
+        run: pwd
+
+      - name: view underlying directories
+        run: ls -la
+
       - name: Generate latest examples using script
         id: generate-examples
-        working-directory: ./examples
+        working-directory: examples
         run: npx @angular-devkit/schematics-cli ../packages/d2c-schematics/dist:d2c \
               --name=global-services-klevu-storefront \
               --epcc-client-id=${{ secrets.EPCC_CLIENT_ID }} \
