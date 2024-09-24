@@ -22,18 +22,6 @@ jobs:
     outputs:
       commit_sha: ${{ steps.commit_changes.outputs.commit_long_sha }}
     steps:
-      - name: Prepare Check Runs
-        uses: dflydev/check-runs-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checks: |
-            [
-              { "id": "packages-unit-int-tests", "name": "Packages unit and Integration tests" },
-              { "id": "generate-examples", "name": "Generate latest examples" },
-              { "id": "examples-unit-int-tests", "name": "Examples unit and Integration tests" },
-              { "id": "examples-e2e-tests", "name": "Examples e2e tests" }
-            ]
-          status: "queued"
       - name: Checkout Repo
         uses: actions/checkout@v3
 
@@ -66,81 +54,18 @@ jobs:
       - name: Build packages/*
         run: pnpm build:packages
 
-      - name: Report "Run packages unit and Integration tests" starting
-        uses: dflydev/check-runs-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          id: packages-unit-int-tests
-          status: in_progress
-
-      - name: Run packages unit and Integration tests
-        run: pnpm test:packages
-        id: packages-unit-int-tests
-        continue-on-error: true
-
-      - name: Report "Run packages unit and Integration tests" conclusion
-        if: always()
-        uses: dflydev/check-runs-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          id: packages-unit-int-tests
-          conclusion: ${{ steps.packages-unit-int-tests.outcome }}
-          fail-on-error: true
-
-      - name: Report "Generate latest examples using script" starting
-        uses: dflydev/check-runs-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          id: generate-examples
-          status: in_progress
-
       - name: Generate latest examples using script
         id: generate-examples
         run: pnpm scaffold:local
-        continue-on-error: true
-
-      - name: Report "Generate latest examples using script" conclusion
-        if: always()
-        uses: dflydev/check-runs-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          id: generate-examples
-          conclusion: ${{ steps.generate-examples.outcome }}
-          fail-on-error: true
-
-      - name: Commit changes
-        id: commit_changes
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: 'chore: generated latest examples'
-          committer_name: GitHub Actions
-          committer_email: 41898282+github-actions[bot]@users.noreply.github.com
-          default_author: github_actions
-          add: '*'
+        continue-on-error: false
 
       - name: Install additional dependencies
         run: pnpm install
 
-      - name: Report "Run examples unit/integration tests" starting
-        uses: dflydev/check-runs-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          id: examples-unit-int-tests
-          status: in_progress
-
       - name: Run examples unit/integration tests
         id: examples-unit-int-tests
         run: pnpm test
-        continue-on-error: true
-
-      - name: Report "Run examples unit/integration tests" conclusion
-        if: always()
-        uses: dflydev/check-runs-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          id: examples-unit-int-tests
-          conclusion: ${{ steps.examples-unit-int-tests.outcome }}
-          fail-on-error: true
+        continue-on-error: false
 
       - name: Make .env.test file
         run: |
@@ -153,13 +78,6 @@ jobs:
 
       - name: Install playwright browsers
         run: npx playwright install --with-deps
-
-      - name: Report "Run examples e2e tests" starting
-        uses: dflydev/check-runs-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          id: examples-e2e-tests
-          status: in_progress
 
       - name: Run e2e tests for latest examples
         run: pnpm test:e2e
@@ -175,12 +93,3 @@ jobs:
           name: test-results
           path: examples/simple/test-results
         continue-on-error: true
-
-      - name: Report "Run examples e2e tests" conclusion
-        if: always()
-        uses: dflydev/check-runs-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          id: examples-e2e-tests
-          conclusion: ${{ steps.examples-e2e-tests.outcome }}
-          fail-on-error: true
