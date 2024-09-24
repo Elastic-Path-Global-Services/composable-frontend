@@ -56,7 +56,7 @@ jobs:
 
       - name: Generate latest examples using script
         id: generate-examples
-        run: (cd /home/runner/work/composable-frontend/composable-frontend/examples && npx @angular-devkit/schematics-cli ../packages/d2c-schematics/dist:d2c \
+        run: (cd /home/runner/work/composable-frontend/examples && npx @angular-devkit/schematics-cli ../packages/d2c-schematics/dist:d2c \
               --name=global-services-klevu-storefront \
               --epcc-client-id=${{ secrets.EPCC_CLIENT_ID }} \
               --epcc-client-secret=${{ secrets.EPCC_CLIENT_SECRET }} \
