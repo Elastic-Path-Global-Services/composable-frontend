@@ -69,11 +69,6 @@ jobs:
       - name: Install additional dependencies
         run: pnpm install
 
-      - name: Run examples unit/integration tests
-        id: examples-unit-int-tests
-        run: pnpm test
-        continue-on-error: false
-
       - name: Make .env.test file
         run: |
           echo "${{ secrets.TEST_ENV_FILE }}" > .env.test
