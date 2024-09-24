@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   generate-examples:
+    permissions: write-all
     name: Create latest examples
     runs-on: ubuntu-latest
     outputs:
