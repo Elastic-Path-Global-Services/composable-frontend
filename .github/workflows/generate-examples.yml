@@ -56,7 +56,8 @@ jobs:
 
       - name: Generate latest examples using script
         id: generate-examples
-        run: (cd /home/runner/work/composable-frontend/examples && npx @angular-devkit/schematics-cli ../packages/d2c-schematics/dist:d2c \
+        working-directory: ./examples
+        run: npx @angular-devkit/schematics-cli ../packages/d2c-schematics/dist:d2c \
               --name=global-services-klevu-storefront \
               --epcc-client-id=${{ secrets.EPCC_CLIENT_ID }} \
               --epcc-client-secret=${{ secrets.EPCC_CLIENT_SECRET }} \
@@ -65,7 +66,7 @@ jobs:
               --klevu-api-key=${{ secrets.KLEVU_API_KEY }} \
               --klevu-search-u-r-l=${{ secrets.KLEVU_SEARCH_URL }} \
               --payment-gateway-type=Manual \
-              --dry-run=false)
+              --dry-run=false
         continue-on-error: false
 
       - name: Install additional dependencies
