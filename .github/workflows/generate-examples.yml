@@ -97,10 +97,14 @@ jobs:
         env:
           BASE_URL: ${{ github.event.deployment_status.environment_url }}
 
+      - name: Publish Test Summary Results
+        working-directory: ../generated/global-services-klevu-storefront
+        run: npx github-actions-ctrf ctrf/ctrf-report.json
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: test-results
-          path: examples/simple/test-results
+          path: ../generated/global-services-klevu-storefront/test-results
         continue-on-error: true
