@@ -104,11 +104,14 @@ jobs:
         working-directory: ../generated/global-services-klevu-storefront
         run: npx github-actions-ctrf ctrf/ctrf-report.json
 
+      - name: Move back to examples in order to upload artifact
+        run: |
+          mv ../generated/global-services-klevu-storefront examples/global-services-klevu-storefront
+
       - name: Upload test results
-        working-directory: ../generated
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: test-results
-          path: global-services-klevu-storefront/test-results
+          path: examples/simple/test-results
         continue-on-error: true
