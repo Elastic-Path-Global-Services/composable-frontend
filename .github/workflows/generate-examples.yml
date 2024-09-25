@@ -80,6 +80,10 @@ jobs:
       - name: build global services klevu storefront
         working-directory: ../generated/global-services-klevu-storefront
         run: pnpm install
+      
+      - name: Install CTRF reporter
+        working-directory: ../generated/global-services-klevu-storefront
+        run: pnpm install --save-dev playwright-ctrf-json-reporter
 
       - name: Build everything
         working-directory: ../generated/global-services-klevu-storefront
