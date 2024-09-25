@@ -95,7 +95,7 @@ jobs:
 
       - name: Run e2e tests for latest examples
         working-directory: ../generated/global-services-klevu-storefront
-        run: pnpm test:e2e
+        run: pnpm test:ci:e2e
         continue-on-error: true
         env:
           BASE_URL: ${{ github.event.deployment_status.environment_url }}
