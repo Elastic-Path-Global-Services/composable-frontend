@@ -66,7 +66,8 @@ jobs:
         run: npx @angular-devkit/schematics-cli ../packages/d2c-schematics/dist:d2c --name=global-services-klevu-storefront --epcc-client-id=${{ secrets.EPCC_CLIENT_ID }} --epcc-client-secret=${{ secrets.EPCC_CLIENT_SECRET }} --epcc-endpoint-url=${{ secrets.EPCC_ENDPOINT_URL }} --plp-type=Klevu --klevu-api-key=${{ secrets.KLEVU_API_KEY }} --klevu-search-u-r-l=${{ secrets.KLEVU_SEARCH_URL }} --payment-gateway-type=Manual --dry-run=false
         continue-on-error: false
 
-      - name: Install additional dependencies
+      - name: build global services klevu storefront
+        working-directory: examples/global-services-klevu-storefront
         run: pnpm install
 
       - name: Make .env.test file
@@ -76,7 +77,8 @@ jobs:
           echo NEXT_PUBLIC_CI=true >> ./examples/global-services-klevu-storefront/.env.test
 
       - name: Build everything
-        run: pnpm build:e2e
+        working-directory: examples/global-services-klevu-storefront
+        run: pnpm build
 
       - name: Install playwright browsers
         run: npx playwright install --with-deps
