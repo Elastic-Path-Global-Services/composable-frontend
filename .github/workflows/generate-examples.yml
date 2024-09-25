@@ -73,7 +73,7 @@ jobs:
         run: |
           echo "${{ secrets.TEST_ENV_FILE }}" > .env.test
           echo NEXT_PUBLIC_CI=true >> .env.test
-          echo NEXT_PUBLIC_CI=true >> ./examples/simple/.env.test
+          echo NEXT_PUBLIC_CI=true >> ./examples/global-services-klevu-storefront/.env.test
 
       - name: Build everything
         run: pnpm build:e2e
