@@ -96,7 +96,6 @@ jobs:
       - name: Run e2e tests for latest examples
         working-directory: ../generated/global-services-klevu-storefront
         run: pnpm test:e2e
-        id: examples-e2e-tests
         continue-on-error: true
         env:
           BASE_URL: ${{ github.event.deployment_status.environment_url }}
@@ -106,9 +105,10 @@ jobs:
         run: npx github-actions-ctrf ctrf/ctrf-report.json
 
       - name: Upload test results
+        working-directory: ../generated/global-services-klevu-storefront
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: test-results
-          path: ../generated/global-services-klevu-storefront/test-results
+          path: test-results
         continue-on-error: true
