@@ -1,4 +1,7 @@
 name: Generate Examples
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 on: 
   workflow_dispatch:
@@ -8,7 +11,6 @@ on:
   push:
     branches:
       - 'main'
-      - 'release/gs-0.0.1'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -76,18 +78,25 @@ jobs:
         run: |
           mkdir ../generated
           mv examples/global-services-klevu-storefront ../generated/global-services-klevu-storefront
+          echo environment url is: ${{ github.event.deployment_status.environment_url }}
 
       - name: build global services klevu storefront
         working-directory: ../generated/global-services-klevu-storefront
         run: pnpm install
-      
-      - name: Install CTRF reporter
-        working-directory: ../generated/global-services-klevu-storefront
-        run: pnpm install --save-dev playwright-ctrf-json-reporter
 
       - name: Build everything
         working-directory: ../generated/global-services-klevu-storefront
-        run: pnpm build
+        run: pnpm build        
+      
+      - name: Deploy Project Artifacts to Vercel
+        working-directory: ../generated/global-services-klevu-storefront
+        run: |
+          echo "PREVIEW_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_ENV
+          echo Deployed project in preview branch ${{ env.PREVIEW_URL }}
+
+      - name: Install CTRF reporter
+        working-directory: ../generated/global-services-klevu-storefront
+        run: pnpm install --save-dev playwright-ctrf-json-reporter
 
       - name: Install playwright browsers
         working-directory: ../generated/global-services-klevu-storefront
@@ -95,10 +104,10 @@ jobs:
 
       - name: Run e2e tests for latest examples
         working-directory: ../generated/global-services-klevu-storefront
-        run: pnpm test:ci:e2e
+        run: pnpm test:e2e
         continue-on-error: true
         env:
-          BASE_URL: ${{ github.event.deployment_status.environment_url }}
+          BASE_URL: ${{ env.PREVIEW_URL }}
 
       - name: Publish Test Summary Results
         working-directory: ../generated/global-services-klevu-storefront
