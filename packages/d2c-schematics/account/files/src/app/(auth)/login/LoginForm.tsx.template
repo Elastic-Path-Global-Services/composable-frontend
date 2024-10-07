@@ -37,7 +37,7 @@ export function LoginForm({ returnUrl }: { returnUrl?: string }) {
           <Label htmlFor="password">Password</Label>
           <div className="text-sm">
             <a
-              href="#"
+              href="/forgot-password"
               className="font-light text-brand-primary hover:text-brand-highlight"
             >
               Forgot password?
