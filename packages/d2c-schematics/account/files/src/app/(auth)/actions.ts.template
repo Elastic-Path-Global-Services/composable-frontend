@@ -32,6 +32,7 @@ const registerSchema = z.object({
 });
 
 const PASSWORD_PROFILE_ID = process.env.NEXT_PUBLIC_PASSWORD_PROFILE_ID!;
+const AUTHENTICATION_REALM_ID = process.env.NEXT_PUBLIC_AUTHENTICATION_REALM_ID!;
 
 const loginErrorMessage =
   "Failed to login, make sure your email and password are correct";
