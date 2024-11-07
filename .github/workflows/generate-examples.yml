@@ -79,10 +79,14 @@ jobs:
         working-directory: ../generated/global-services-klevu-storefront
         run: pnpm install
 
+      - name: Build everything with vercel
+        working-directory: ../generated/global-services-klevu-storefront
+        run: vercel build  
+
       - name: Build everything
         working-directory: ../generated/global-services-klevu-storefront
         run: pnpm build        
-      
+
       - name: Deploy Project Artifacts to Vercel
         working-directory: ../generated/global-services-klevu-storefront
         run: |
