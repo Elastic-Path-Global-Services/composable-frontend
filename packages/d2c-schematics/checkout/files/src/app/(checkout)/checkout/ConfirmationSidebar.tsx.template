@@ -16,7 +16,9 @@ import {
   resolveTotalInclShipping,
 } from "../../../components/checkout-sidebar/ItemSidebar";
 import { useCheckout } from "./checkout-provider";
+<% if(shippingProviderEndpoint==null) {%>
 import { staticDeliveryMethods } from "./useShippingMethod";
+<% } %>
 import { EP_CURRENCY_CODE } from "../../../lib/resolve-ep-currency-code";
 import { LoadingDots } from "../../../components/LoadingDots";
 
@@ -40,12 +42,8 @@ export function ConfirmationSidebar() {
   const meta = {
     display_price: order.data.meta.display_price,
   };
-
-  const shippingAmount = staticDeliveryMethods.find(
-    (method) =>
-      !!shippingMethodCustomItem &&
-      method.value === shippingMethodCustomItem.sku,
-  )?.amount;
+  
+  const shippingAmount = shippingMethodCustomItem?.unit_price.amount;
 
   const storeCurrency = currencyData?.find(
     (currency) => currency.code === EP_CURRENCY_CODE,

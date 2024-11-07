@@ -16,7 +16,7 @@ import {
 import type { Schema as CheckoutOptions } from "./schema"
 
 export default function (options: CheckoutOptions): Rule {
-  const { paymentGatewayType } = options
+  const { paymentGatewayType, shippingProviderEndpoint } = options
 
   const paymentGatewaySchematic = resolveGatewaySchematic(paymentGatewayType)
 
