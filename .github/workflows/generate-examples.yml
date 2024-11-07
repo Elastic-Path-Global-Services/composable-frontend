@@ -59,8 +59,8 @@ jobs:
       - name: Generate latest examples using script
         id: generate-examples
         working-directory: examples
-#        run: npx @angular-devkit/schematics-cli ../packages/d2c-schematics/dist:d2c --name=global-services-klevu-storefront --epcc-client-id=${{ secrets.EPCC_CLIENT_ID }} --epcc-client-secret=${{ secrets.EPCC_CLIENT_SECRET }} --epcc-endpoint-url=${{ secrets.EPCC_ENDPOINT_URL }} --plp-type=Klevu --klevu-api-key=${{ secrets.KLEVU_API_KEY }} --klevu-search-u-r-l=${{ secrets.KLEVU_SEARCH_URL }} --payment-gateway-type=Manual --dry-run=false
-        run: pnpm examples
+        run: npx @angular-devkit/schematics-cli ../packages/d2c-schematics/dist:d2c --name=global-services-klevu-storefront --epcc-client-id=${{ secrets.EPCC_CLIENT_ID }} --epcc-client-secret=${{ secrets.EPCC_CLIENT_SECRET }} --epcc-endpoint-url=${{ secrets.EPCC_ENDPOINT_URL }} --plp-type=Klevu --klevu-api-key=${{ secrets.KLEVU_API_KEY }} --klevu-search-u-r-l=${{ secrets.KLEVU_SEARCH_URL }} --payment-gateway-type=Manual --shipping-provider-endpoint --dry-run=false
+        #run: pnpm examples
         continue-on-error: false
 
       - name: Make .env.test file
