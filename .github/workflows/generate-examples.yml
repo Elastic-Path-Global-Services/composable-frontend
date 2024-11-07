@@ -85,6 +85,10 @@ jobs:
         working-directory: ../generated/global-services-klevu-storefront
         run: pnpm build        
 
+      - name: Get project settings from Vercel
+        working-directory: ../generated/global-services-klevu-storefront
+        run: vercel pull --yes  --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Build everything with vercel
         working-directory: ../generated/global-services-klevu-storefront
         run: vercel build  --token=${{ secrets.VERCEL_TOKEN }}
