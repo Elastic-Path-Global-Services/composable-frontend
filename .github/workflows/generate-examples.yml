@@ -87,13 +87,13 @@ jobs:
         working-directory: ../generated/global-services-klevu-storefront
         run: vercel env pull --environment=preview .env.local  --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Build everything
-        working-directory: ../generated/global-services-klevu-storefront
-        run: pnpm build        
+#      - name: Build everything
+#        working-directory: ../generated/global-services-klevu-storefront
+#        run: pnpm build        
 
       - name: Build everything with vercel
         working-directory: ../generated/global-services-klevu-storefront
-        run: vercel build  --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --prod --yes --debug --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Project Artifacts to Vercel
         working-directory: ../generated/global-services-klevu-storefront
