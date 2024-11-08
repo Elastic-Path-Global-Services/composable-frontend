@@ -85,7 +85,7 @@ jobs:
 
       - name: Get vercel env
         working-directory: ../generated/global-services-klevu-storefront
-        run: vercel env pull --environment=prod .env.production.local  --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel env pull --environment=production .env.production.local  --token=${{ secrets.VERCEL_TOKEN }}
 
 #      - name: Build everything
 #        working-directory: ../generated/global-services-klevu-storefront
