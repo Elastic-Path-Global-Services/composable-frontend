@@ -98,7 +98,7 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         working-directory: ../generated/global-services-klevu-storefront
         run: |
-          echo "PREVIEW_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_ENV
+          echo "PREVIEW_URL=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_ENV
           echo Deployed project in preview branch ${{ env.PREVIEW_URL }}
 
       - name: Install CTRF reporter
