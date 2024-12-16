@@ -27,6 +27,8 @@ type CheckoutContext = {
     options?: ShippingMethod[];
     isLoading: boolean;
   };
+  selectedShipping?:ShippingMethod;
+  mutateSelectedShipping:(value:ShippingMethod)=> void
 };
 
 const CheckoutContext = createContext<CheckoutContext | null>(null);
@@ -57,8 +59,11 @@ export function CheckoutProvider({ children }: CheckoutProviderProps) {
   const { selectedAccountToken } = useAuthedAccountMember();
 
   const { data: shippingMethods, isLoading: isShippingMethodsLoading } =
+  <% if(shippingProviderEndpoint) { %>
+    useShippingMethod(state?.id);
+  <% } else { %>
     useShippingMethod();
-
+  <% } %>
   const paymentComplete = usePaymentComplete(
     {
       cartId: state?.id,
@@ -71,6 +76,11 @@ export function CheckoutProvider({ children }: CheckoutProviderProps) {
       },
     },
   );
+  const [shippingMethod, setShippingMethod] = useState<ShippingMethod>();
+
+  const updateSelectedShipping = (shippingMethod:ShippingMethod) => {
+    setShippingMethod(shippingMethod);
+  };
 
   return (
     <Form {...formMethods}>
@@ -85,6 +95,8 @@ export function CheckoutProvider({ children }: CheckoutProviderProps) {
           cart: state,
           completePayment: paymentComplete,
           isCompleting: paymentComplete.isPending,
+          selectedShipping:shippingMethod,
+          mutateSelectedShipping:setShippingMethod
         }}
       >
         {children}

@@ -38,6 +38,7 @@ type CheckoutContext = {
   shippingMethods: {
     options?: ShippingMethod[];
     isLoading: boolean;
+    selected?:ShippingMethod
   };
 };
 

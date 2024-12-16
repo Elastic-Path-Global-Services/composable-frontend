@@ -36,6 +36,12 @@
       "enum": ["EP Payments", "Manual", "None"],
       "x-prompt": "Which payment gateway do you want to use?"
     },
+    "shippingProviderEndpoint": {
+      "description": "EPCC integration endpoint for shipping options",
+      "type": "boolean",
+      "x-prompt": "use EPCC shipping provider integration?"
+    },
+
     "epccClientId": {
       "description": "The client id value for an Elastic Path Commerce Cloud store.",
       "type": "string",

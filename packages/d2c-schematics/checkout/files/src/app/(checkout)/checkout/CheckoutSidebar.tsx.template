@@ -13,7 +13,11 @@ import {
   ItemSidebarTotalsTax,
   resolveTotalInclShipping,
 } from "../../../components/checkout-sidebar/ItemSidebar";
+<% if(shippingProviderEndpoint) { %>
+import { useShippingMethod} from "./useShippingMethod";
+<% } else { %>
 import { staticDeliveryMethods } from "./useShippingMethod";
+<% } %>
 import { cn } from "../../../lib/cn";
 import { useWatch } from "react-hook-form";
 import { EP_CURRENCY_CODE } from "../../../lib/resolve-ep-currency-code";
@@ -23,6 +27,9 @@ import { LoadingDots } from "../../../components/LoadingDots";
 export function CheckoutSidebar() {
   const { data } = useCart();
   const state = data?.state;
+  <% if(shippingProviderEndpoint) { %>
+  const staticDeliveryMethods = useShippingMethod(state?.id).data;
+  <% } %>
   const shippingMethod = useWatch({ name: "shippingMethod" });
 
   const { data: currencyData } = useCurrencies();
@@ -35,7 +42,7 @@ export function CheckoutSidebar() {
     return null;
   }
 
-  const shippingAmount = staticDeliveryMethods.find(
+  const shippingAmount = staticDeliveryMethods?.find(
     (method) => method.value === shippingMethod,
   )?.amount;
 

@@ -59,9 +59,9 @@ export const anonymousCheckoutFormSchema = z.object({
   shippingAddress: shippingAddressSchema,
   sameAsShipping: z.boolean().default(true),
   billingAddress: billingAddressSchema.optional().or(emptyStringToUndefined),
-  shippingMethod: z
+  shippingMethod: z<% if(shippingProviderEndpoint) { %>.string()<% }else {%>
     .union([z.literal("__shipping_standard"), z.literal("__shipping_express")])
-    .default("__shipping_standard"),
+    .default("__shipping_standard"), <%}%>
 });
 
 export type AnonymousCheckoutForm = z.TypeOf<
@@ -73,9 +73,9 @@ export const accountMemberCheckoutFormSchema = z.object({
   shippingAddress: shippingAddressSchema,
   sameAsShipping: z.boolean().default(true),
   billingAddress: billingAddressSchema.optional().or(emptyStringToUndefined),
-  shippingMethod: z
+  shippingMethod: z<% if(shippingProviderEndpoint) { %>.string()<% }else {%>
     .union([z.literal("__shipping_standard"), z.literal("__shipping_express")])
-    .default("__shipping_standard"),
+    .default("__shipping_standard"), <%}%>
 });
 
 export type AccountMemberCheckoutForm = z.TypeOf<
