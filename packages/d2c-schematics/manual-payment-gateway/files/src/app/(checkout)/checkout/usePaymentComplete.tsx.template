@@ -6,7 +6,11 @@ import {
 } from "@elasticpath/react-shopper-hooks";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { CheckoutForm } from "../../../components/checkout/form-schema/checkout-form-schema";
+<% if(shippingProviderEndpoint) { %>
+import { useShippingMethod} from "./useShippingMethod";
+<% } else { %>
 import { staticDeliveryMethods } from "./useShippingMethod";
+<% } %>
 import {
   CartItemsResponse,
   ConfirmPaymentResponse,
@@ -43,6 +47,10 @@ export function usePaymentComplete(
   const { mutateAsync: mutateAddCustomItemToCart } = useAddCustomItemToCart(
     cartId ?? "",
   );
+  <% if(shippingProviderEndpoint) { %>
+  const staticDeliveryMethods=useShippingMethod(cartId)?.data;
+  <% } %>
+  
 
   const paymentComplete = useMutation({
     mutationFn: async ({ data }) => {
@@ -61,17 +69,8 @@ export function usePaymentComplete(
         shippingAddress: shippingAddress,
       };
 
-      /**
-       * The handling of shipping options is not production ready.
-       * You must implement your own based on your business needs.
-       */
-      const shippingAmount =
-        staticDeliveryMethods.find((method) => method.value === shippingMethod)
-          ?.amount ?? 0;
-
-      /**
-       * Using a cart custom_item to represent shipping for demo purposes.
-       */
+      const shippingAmount = staticDeliveryMethods?.find((method) => method.value === shippingMethod)?.amount ?? 0;
+      
       const cartInclShipping = await mutateAddCustomItemToCart({
         type: "custom_item",
         name: "Shipping",

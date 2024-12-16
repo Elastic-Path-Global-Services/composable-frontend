@@ -23,10 +23,20 @@ import {
 } from "../../../components/alert/Alert";
 import { Skeleton } from "../../../components/skeleton/Skeleton";
 
+<% if(shippingProviderEndpoint) { %>
+import { useCart } from "@elasticpath/react-shopper-hooks";
+<% } %>
+
 export function DeliveryForm() {
   const { control } = useFormContext<CheckoutFormSchemaType>();
+  <% if(shippingProviderEndpoint) { %>
+  const { data } = useCart();
+  const state = data?.state;
+  const { data: deliveryOptions } = useShippingMethod(state?.id);
+  <% } else { %>
+  const shippingProviderEndpoint=false;
   const { data: deliveryOptions } = useShippingMethod();
-
+  <% } %>
   return (
     <fieldset className="flex flex-col gap-6 self-stretch">
       <div>
